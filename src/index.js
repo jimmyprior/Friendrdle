@@ -1,17 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Route , Routes} from "react-router-dom";
+
+import "./styles.css";
+
+import {Game} from './routes/game'
+
+const red = "#ff0000"
+const green = "#00ff00"
+const blue = "#0000ff"
+
+const b = [
+  [["B", red], ["B", red], ["S", red], ["F", blue], ["S", red], ["F", blue]],
+  [["B", red], ["S", green], ["B", red], ["E", red], ["S", red], ["F", blue]],
+  [["B", red], ["P", green], ["H", green], ["Q", red], ["S", red], ["F", blue]],
+  [["B", green], ["B", red], ["Y", red], ["B", red], ["S", red], ["F", blue]],
+  [["B", red], ["B", blue], ["B", blue], ["B", red], ["S", red], ["F", blue]]
+]
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Game word="JIMMY" guesses={5}/>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
