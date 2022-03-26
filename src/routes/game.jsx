@@ -1,13 +1,49 @@
-import {Board} from "./board"
-import {KeyBoard} from "./keyboard"
+import React, {useState, useEffect} from 'react';
+import {useParams} from "react-router-dom";
 
-import React from 'react';
+import {Board} from "./basic/board"
+import {KeyBoard} from "./basic/keyboard"
 
 const RED = "#ff3636"; //red
 const YELLOW = "#fcff47"; //yellow
 const GREY = "#dbdbdb"; //grey
 const GREEN = "#54ff47"; //green
 
+
+function GamePage() {
+
+
+    const params = useParams();
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        async function getData() {
+            let resp = await fetch("https://api.friendrdle.com" + "/" + params.gameID)
+            if (resp.status >= 200 && resp.status < 400) {
+                const data = await resp.json()
+                return data;
+            }
+            console.log("Error getting data!") 
+        }
+        
+        getData()
+        .then(json => setData(json));
+
+      }, []); // Only re-run the effect if count changes
+
+      
+    return (
+        <div>
+            {data !== null && (
+                <Game {...data}/>
+            )}
+            {data === null && (
+                <p>Loading...</p>
+            )}
+        </div>
+    )
+    
+}
 
 
 function getAllIndexes(str, val) {
@@ -20,7 +56,6 @@ function getAllIndexes(str, val) {
   } 
 
 
-
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +66,7 @@ class Game extends React.Component {
     this.x = 0;
     this.y = 0;
   }
+
 
 
   getEmptyBoard(word, guesses){
@@ -79,8 +115,10 @@ class Game extends React.Component {
 
     if (guess.length !== actual.length) {
       //error not long enough
+      this.setState({error:"Must be " + actual.length + " characters"});
       return null;
     }
+    this.setState({error:null})
 
     this.x = 0;
     let newColors = {...this.state.colors}
@@ -123,7 +161,7 @@ class Game extends React.Component {
   render() {
     return (
       <div>
-        <Board board={this.state.board}></Board>
+        <Board board={this.state.board} error={this.state.error}></Board>
         <KeyBoard colors={this.state.colors} onEnter={this.onEnter.bind(this)} onBackspace={this.onBackspace.bind(this)} onLetter={this.onLetter.bind(this)}/>
       </div>
     )
@@ -132,4 +170,4 @@ class Game extends React.Component {
 
 
 
-export {Game}
+export {GamePage}
