@@ -126,8 +126,6 @@ class Game extends React.Component {
 
     for (let i = 0; i < actual.length; i++) {
       let color = RED;
-      console.log(guess[i])
-      console.log(actual[i])
       //board[yIndex][i][1]
       if (guess[i] === actual[i]) {
         color = GREEN; // green
