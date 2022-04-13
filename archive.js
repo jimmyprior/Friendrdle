@@ -17,23 +17,16 @@ function CreatePage(props) {
         .then(json => setLink(window.location.href + "game/" + json.gameID))
     }
 
-    function copyLink() {
+    useEffect(() => {
         navigator.clipboard.writeText(link)
-    }
+      }, [link]); // Only re-run the effect if count changes
+
 
     return (
         <div>
-            <div className="title">
-                <img className="title-img"></img>
-                <h1 className="title-text">Friendrdle</h1>
-                <img className="title-img"></img>
-            </div>
             {link !== null && (
                 <div>
-                    <p>Your game has been created</p>
-                    <p>Copy Shareable Link:</p>
-                    <button onClick={copyLink}>Copy</button>
-                    <p>Try it out:</p>
+                    <p>Link Copied to clipboard. Share this link with your friends!</p>
                     <a href={link}>Link To Game</a>
                 </div>
             )}
@@ -91,8 +84,27 @@ class CreateTest extends React.Component {
                 <div className="error">
                     <p>Error msg goes here!</p>
                 </div>
-
-
+                <form id="create">
+                    <label className="full-label">
+                        Word
+                        <input id="word-input" type="text"/>
+                    </label>
+                    <label className="inline-label">
+                        Guesses:
+                        <select id="create-dropdown">
+                            {
+                                GUESSES.map((val, i) => (
+                                    <option key={i} value={val}>{val}</option>
+                                ))
+                            }
+                        </select>
+                    </label>
+                    <label className="full-label">
+                        Word List Add-Ons
+                        <input id="wordlist-input" type="text"/>
+                    </label>
+                    <input id="create-button" type="submit" value="Create" />
+                </form>
             </div>
         )
     }
@@ -104,12 +116,7 @@ class Create extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            word:"", 
-        }
-        this.guesses = 4
-        this.dictionary = false
-
+        this.state = {word:"", guesses:5}
     }
 
     onLetter(letter) {
@@ -129,74 +136,26 @@ class Create extends React.Component {
         //check requiremnts. 
         //fetch and all that
         //let resp = fetch("https://api.friendrdle.com")
-        this.props.onFinish({
-            word : this.state.word,
-            guesses : this.guesses,
-            dictionary : this.dictionary
-        })
+        this.props.onFinish(this.state)
         //this.props.onFinish(gameID);
         //pass the game id to the onFinish
     }
 
-    handleGuessChange(e) {
-        this.guesses = e.target.value;
-    };
-
     render() {
         return (
             <div>
-                <div>
-                    <div className="BoardRow">
-                        <Tile letter="C"/>
-                        <Tile letter="R"/>
-                        <Tile letter="E"/>
-                        <Tile letter="A"/>
-                        <Tile letter="T"/>
-                        <Tile letter="E"/>
-                    </div>
+                <p>Type a word</p>
+                <div className="BoardRow">
+                    {this.state.word.split("").map((char, index) => (
+                        <Tile key={index} letter={char} color={null} />
+                    ))}
                 </div>
-                <div className="form-field">
-                    <label>
-                        Word:
-                        {this.state.word.length > 0 && 
-                            <div className="BoardRow">
-                                {this.state.word.split("").map((char, index) => (
-                                    <Tile key={index} letter={char} color={null} />
-                                ))}
-                            </div>
-                        }
-                        {this.state.word.length == 0 &&
-                            <div className="BoardRow">
-                                <Tile></Tile>
-                            </div>
-                        }
-                    </label>
-                </div>
-                <div className="form-field">
-                    <label className="inline-label">
-                            Guesses:
-                            <select id="create-dropdown" onChange={this.handleGuessChange.bind(this)}>
-                                {
-                                    GUESSES.map((val, i) => (
-                                        <option key={i} value={val}>{val}</option>
-                                    ))
-                                }
-                            </select>
-                    </label>
-                    <label className="inline-label">
-                        Force Dictionary:
-                        <input type="checkbox" onChange={() => this.dictionary = !this.dictionary}/>                    
-                    </label>     
-                </div>
-                <div className="form-field"/>
                 <KeyBoard colors={{}} onEnter={this.onEnter.bind(this)} onBackspace={this.onBackspace.bind(this)} onLetter={this.onLetter.bind(this)}/>
             </div>
         ) 
     }
+
 }
 
-
-//https://www.flaticon.com/free-icon/information_545674
-//https://www.flaticon.com/free-icon/information_906794
 
 export {CreatePage, CreateTest}

@@ -57,7 +57,7 @@ function KeyBoard(props) {
     ]
 
     return (
-        <div>
+        <div className="KeyBoard">
             {layout.map((letters, y) => (
                 <div key={y} className="KeyBoardRow">
                     {letters.map((l, x) => (

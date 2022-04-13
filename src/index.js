@@ -5,10 +5,10 @@ import {BrowserRouter, Route , Routes} from "react-router-dom";
 import "./styles.css";
 
 import {GamePage} from './routes/game'
-import {CreatePage} from "./routes/create"
+import {CreatePage, CreateTest} from "./routes/create"
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter className="full">
     <Routes>
       <Route path="/game/:gameID" element={<GamePage />} />
       <Route path="/" element={<CreatePage />} />
@@ -17,3 +17,4 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root')
 );
+
