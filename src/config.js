@@ -1,6 +1,6 @@
 
 export default {
-    PUBLIC_URL : "https://friendrdle.jimmyprior.repl.co",
+    PUBLIC_URL : process.env.PUBLIC_URL,
     MIN_GUESSES : 3,
     MAX_GUESSES : 10,
     DEFAULT_GUESS_NUM : 5,

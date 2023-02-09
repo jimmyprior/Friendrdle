@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom/client';
 
-import { useState, useEffect} from 'react';
 import {Switch, Route, Link} from "wouter";
 
 import HomePage from "./home/HomePage" 
