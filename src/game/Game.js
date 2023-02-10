@@ -129,9 +129,15 @@ function Game(props) {
         }
 
         //color the wrong tiles red 
+        let newColorDict = {...keyColors}
+
         for (let x of cellsToUpdate) {
+            const letter = board[cursor.y][x].character;
+            newColorDict[letter] = "darkgrey"
             updateCell(x, cursor.y, {state : CellState.WRONG})
         }
+        setKeyColors(newColorDict)
+
         //if the last row, end the game
         if (cursor.y + 1 == parseInt(board.length)) {
             setWinStatus(false);

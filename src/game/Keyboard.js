@@ -38,7 +38,7 @@ function KeyBoard(props) {
               }
 
               if (keyValue in props.keyColors) {
-                  style.backgroundColor = props.keyColors.key;
+                  style.backgroundColor = props.keyColors[keyValue];
               }
 
               return (
